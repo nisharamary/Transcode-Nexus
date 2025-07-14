@@ -4,7 +4,7 @@ from celery import Celery
 from werkzeug.utils import secure_filename
 from pathlib import Path
 import subprocess
-from mailer import send_done_mail
+
 
 REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:7379")
 
