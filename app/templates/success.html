@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Conversion Successful</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="container py-5">
+    <h1 class="text-success">Conversion Successful!</h1>
+    <p>Your video is ready:</p>
+    <a href="{{ url_for('download_file', filename=output_filename) }}" class="btn btn-success">
+        Download {{ output_filename }}
+    </a><br><br>
+    <a href="/" class="btn btn-secondary">Convert Another</a>
+</body>
+</html>

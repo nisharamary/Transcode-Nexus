@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Transcode Nexus</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="container py-5">
+    <h1 class="mb-4">Transcode Nexus – Video Converter</h1>
+    <form method="POST" enctype="multipart/form-data" class="mt-4">
+        <div class="mb-3">
+            <label class="form-label">Select a video file</label>
+            <input type="file" name="video" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Convert to:</label>
+            <select name="format" class="form-select" required>
+                <option value="mp4">MP4</option>
+                <option value="avi">AVI</option>
+                <option value="mov">MOV</option>
+                <option value="webm">WEBM</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Convert</button>
+    </form>
+</body>
+</html>

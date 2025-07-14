@@ -1,0 +1,4 @@
+celery==5.4.*
+redis==5.0.*
+flower==2.0.*            # already pulls Celery
+python-dotenv            # loads .env files

@@ -1,0 +1,28 @@
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+venv/
+.env
+env
+
+# Uploaded and converted videos
+app/uploads/
+app/converted/
+
+# OS and editor-specific files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Docker files
+*.pid
+
+# Ignore build artifacts
+*.egg-info/
+dist/
+build/

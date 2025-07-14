@@ -1,0 +1,167 @@
+<!-- <!doctype html>
+<title>Queued</title>
+<h2>Your video is being processed…</h2>
+<div id="status">Waiting…</div>
+<script>
+const taskId = "{{ task_id }}";
+function poll() {
+  fetch(`/status/${taskId}`).then(r => r.json()).then(data => {
+    if (data.state === "SUCCESS") {
+      document.getElementById("status").innerHTML =
+        `<a href="/download/${data.output_filename}">Download ${data.output_filename}</a>`;
+    } else if (data.state === "FAILURE") {
+      document.getElementById("status").innerHTML = "Conversion failed: " + data.error;
+    } else {
+      document.getElementById("status").innerText = data.status || data.state;
+      setTimeout(poll, 2000);
+    }
+  });
+}
+poll();
+</script> -->
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Processing…</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="bg-light">
+    <div class="container text-center py-5">
+        <h1 id="headline" class="text-primary mb-3">Processing…</h1>
+
+        <div id="spinner" class="spinner-border text-primary mb-3" role="status">
+            <span class="visually-hidden">Loading…</span>
+        </div>
+
+        <div id="statusBox" class="lead mb-3" style="min-height: 3em;">
+            Waiting in queue…
+        </div>
+
+        <div class="d-grid gap-2 col-sm-6 mx-auto">
+            <button id="backBtn" class="btn btn-outline-secondary" onclick="window.location.href='/'">
+                Cancel / Convert Another
+            </button>
+        </div>
+    </div>
+
+    <script>
+    const taskId = "{{ task_id }}";
+    const poll = () => {
+      fetch(`/status/${taskId}`)
+        .then(r => r.json())
+        .then(data => {
+          const headline   = document.getElementById("headline");
+          const spinner    = document.getElementById("spinner");
+          const statusBox  = document.getElementById("statusBox");
+          const backBtn    = document.getElementById("backBtn");
+
+          if (data.state === "SUCCESS") {
+            headline.classList.remove("text-primary");
+            headline.classList.add("text-success");
+            headline.innerText = "Conversion completed";
+
+            spinner.style.display = "none";
+
+            statusBox.innerHTML =
+              `<a href="/download/${data.output_filename}"
+                  class="btn btn-success btn-lg">
+                  Download ${data.output_filename}
+               </a>`;
+
+            backBtn.classList.remove("btn-outline-secondary");
+            backBtn.classList.add("btn-secondary");
+            backBtn.innerText = "Convert Another";
+          } else if (data.state === "FAILURE") {
+            spinner.style.display = "none";
+            headline.classList.add("text-danger");
+            headline.innerText = "Conversion failed";
+            statusBox.innerHTML = `<span class="text-danger">${data.error}</span>`;
+          } else {
+            statusBox.innerText = data.status || data.state;
+            setTimeout(poll, 2000);
+          }
+        });
+    };
+    poll();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Processing…</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Your dark CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="container py-5 text-center">
+  <h1 id="headline" class="mb-4">Transcode Nexus – Processing</h1>
+
+  <!-- Spinner -->
+  <div id="spinner" class="spinner-border text-light mb-4" role="status">
+    <span class="visually-hidden">Loading…</span>
+  </div>
+
+  <!-- Status text -->
+  <div id="statusBox" class="lead mb-4">
+    Waiting in queue…
+  </div>
+
+  <!-- Button row -->
+  <div class="d-grid gap-2 col-sm-8 col-md-6 col-lg-4 mx-auto">
+    <button id="backBtn" class="btn btn-primary" onclick="window.location.href='/'">
+      Cancel / Convert Another
+    </button>
+  </div>
+
+  <script>
+  const taskId = "{{ task_id }}";
+  const poll = () => {
+    fetch(`/status/${taskId}`)
+      .then(r => r.json())
+      .then(data => {
+        const headline  = document.getElementById("headline");
+        const spinner   = document.getElementById("spinner");
+        const statusBox = document.getElementById("statusBox");
+        const backBtn   = document.getElementById("backBtn");
+
+        if (data.state === "SUCCESS") {
+          headline.innerHTML  = "Conversion completed";
+          headline.className  = "text-success mb-4";
+
+          spinner.style.display = "none";
+
+          statusBox.innerHTML =
+            `<a href="/download/${data.output_filename}" class="btn btn-primary btn-lg">
+               Download ${data.output_filename}
+             </a>`;
+
+          backBtn.innerText = "Convert Another";
+          backBtn.className = "btn btn-primary";
+        } else if (data.state === "FAILURE") {
+          headline.innerHTML  = "Conversion failed";
+          headline.className  = "text-danger mb-4";
+
+          spinner.style.display = "none";
+          statusBox.innerHTML   = `<span class="text-danger">${data.error}</span>`;
+        } else {
+          statusBox.innerText = data.status || data.state;
+          setTimeout(poll, 2000);
+        }
+      });
+  };
+  poll();
+  </script>
+</body>
+</html>
