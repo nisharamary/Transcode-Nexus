@@ -25,4 +25,6 @@ COPY . .
 EXPOSE 3000
 
 # Set default command
-CMD ["python", "app/app.py"]
+#CMD ["python", "app/main.py"]
+CMD ["python", "-m", "app.main"]
+

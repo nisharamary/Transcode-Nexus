@@ -1,24 +1,13 @@
-from flask import Flask, request, render_template, send_from_directory, url_for, jsonify
-from werkzeug.utils import secure_filename
-from tasks import convert_video
+# app/main.py
 import os
+from flask import request, render_template, send_from_directory, jsonify
+from werkzeug.utils import secure_filename
+from app import create_app           # ✅ absolute import works when run as a module
+from app.tasks import convert_video  # ✅ absolute import
 
-app = Flask(__name__)
+app = create_app()
 
-# same configs as before
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-UPLOAD_FOLDER   = os.path.join(BASE_DIR, "uploads")
-CONVERTED_FOLDER= os.path.join(BASE_DIR, "converted")
 ALLOWED_EXTENSIONS = {"mp4", "avi", "mov", "webm", "mkv"}
-
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-os.makedirs(CONVERTED_FOLDER, exist_ok=True)
-
-app.config.update(
-    UPLOAD_FOLDER=UPLOAD_FOLDER,
-    CONVERTED_FOLDER=CONVERTED_FOLDER,
-    MAX_CONTENT_LENGTH=100 * 1024 * 1024,
-)
 
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -28,7 +17,6 @@ def upload_video():
     if request.method == "POST":
         file = request.files.get("video")
         output_format = request.form.get("format")
-
         if not (file and allowed_file(file.filename) and output_format):
             return "Invalid file or format.", 400
 
@@ -40,7 +28,6 @@ def upload_video():
         output_filename = f"{base}.{output_format}"
         output_path = os.path.join(app.config["CONVERTED_FOLDER"], output_filename)
 
-        # Enqueue conversion task
         job = convert_video.delay(input_path, output_path, output_format)
         return render_template("queued.html", task_id=job.id)
 
@@ -63,10 +50,10 @@ def task_status(task_id):
 def download_file(filename):
     return send_from_directory(app.config["CONVERTED_FOLDER"], filename, as_attachment=True)
 
-# Optional: list files for debugging
 @app.route("/debug-files")
 def debug_files():
     return "<br>".join(os.listdir(app.config["CONVERTED_FOLDER"]))
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=3000)
+

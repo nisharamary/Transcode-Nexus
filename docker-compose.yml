@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "7378:6379"
+
+  web:
+    build: .
+    ports:
+      - "3088:3000"
+    depends_on:
+      - redis
+    volumes:
+      - ./uploads:/app/uploads
+      - ./converted:/app/converted
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - DELETE_AFTER_HOURS=24
+    working_dir: /app
+
+  worker:
+    build: .
+    command: celery -A app.tasks worker --loglevel=info --concurrency=2
+    depends_on:
+      - redis
+    volumes:
+      - ./uploads:/app/uploads
+      - ./converted:/app/converted
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - DELETE_AFTER_HOURS=24
+    working_dir: /app
+
+  beat:
+    build: .
+    command: celery -A app.tasks beat --loglevel=info
+    depends_on:
+      - redis
+    volumes:
+      - ./uploads:/app/uploads
+      - ./converted:/app/converted
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - DELETE_AFTER_HOURS=24
+    working_dir: /app
+
