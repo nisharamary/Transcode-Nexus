@@ -82,7 +82,7 @@ cd transcode-nexus
 docker build -t transcode-nexus .
 
 # Run the container
-docker run -d -p 5000:5000 --name converter transcode-nexus
+docker run -d -p 3000:3000 --name converter transcode-nexus
 
 # Access in browser
 http://localhost:3000
@@ -110,8 +110,8 @@ http://localhost:3000
    ```bash
    git clone https://github.com/nisharamary/Transcode-Nexus.git
    cd transcode-nexus
-   sudo docker build -t transcode-nexus .
-   sudo docker run -d -p 5000:5000 --name converter transcode-nexus
+   # Build and run using Docker Compose
+   sudo docker compose up -d --build
    ```
 6. Configure NGINX:
 
@@ -124,22 +124,6 @@ http://localhost:3000
 
 ---
 
-## ✅ Commands Used
-
-### FFmpeg:
-
-```bash
-ffmpeg -i input.mp4 output.avi
-```
-
-### Docker:
-
-```bash
-docker build -t transcode-nexus .
-docker run -d -p 3000:3000 --name converter transcode-nexus
-```
-
----
 
 ## 🔐 Security Measures
 
@@ -147,7 +131,7 @@ docker run -d -p 3000:3000 --name converter transcode-nexus
 * Max file size: 100MB
 * Output filenames sanitized
 * Docker isolation
-* Optional: Auto-deletion & async processing (see below)
+
 
 ---
 
@@ -156,24 +140,8 @@ docker run -d -p 3000:3000 --name converter transcode-nexus
 Students seeking bonus credit can implement:
 
 * [ ] ✅ Async conversion with Celery + Redis
-* [ ] ✅ Email notification when video is ready
-* [ ] ✅ Auto-delete files after X hours (cron or scheduled job)
-* [ ] ✅ Upload to Amazon S3 or cloud storage
-* [ ] ✅ Video compression toggle (resolution, bitrate)
 
 ---
-
-## 🖼️ Screenshots
-
-*Include these screenshots before final submission:*
-
-* [ ] Web Interface (Upload Form)
-* [ ] EC2 CLI Setup (Docker + NGINX)
-* [ ] Sample Converted Video File
-* [ ] Architecture Diagram
-
----
-
 ## 🔗 GitHub Repository
 
 [👉 View on GitHub](https://github.com/nisharamary/Transcode-Nexus.git)
@@ -182,6 +150,6 @@ Students seeking bonus credit can implement:
 
 ## 👩‍🏫 Authors / Credits
 
-* **Your Name**
+* **Nishara Mary K**
 * Project for: Cloud & DevOps Mini Capstone Project
 
