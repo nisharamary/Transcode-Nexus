@@ -137,9 +137,7 @@ http://localhost:3000
 
 ## 💡 Optional Enhancements
 
-Students seeking bonus credit can implement:
-
-* [ ] ✅ Async conversion with Celery + Redis
+* [ ] ✅ Async conversion with Celery + Redis - Done
 
 ---
 ## 🔗 GitHub Repository
