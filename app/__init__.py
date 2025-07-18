@@ -10,6 +10,9 @@ celery = Celery(
     result_expires=3600,
 )
 
+celery.config_from_object('app.celeryconfig')
+
+
 def create_app():
     app = Flask(__name__)
 
